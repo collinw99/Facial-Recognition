@@ -16,13 +16,15 @@ while True:
     # parameters: (image, rejectLevels, levelWeights, ?scaleFactor, ?minNeighbors, ?flags, ?minSize, ?maxSize, ?outputRejectLevels)
     FACES = FACE_CASCADE.detectMultiScale(GRAY, 1.3, 5)
     # for each face found
-    for (x, y, w, h) in FACES:
+    for i, (x, y, w, h) in enumerate(FACES):
+        COLOR = (30*(i+2)%256, 20*(i+2)%256, 40*(i+2)%256)
         # draw a rectangle in the frame around the face found
         # parameters: (image, point1, point2, color, thickness, ?lineType, ?shift)
-        frame = cv2.rectangle(frame, (x, y), (x+w, y+h), (255, 0, 0), 2)
+        frame = cv2.rectangle(frame, (x, y), (x+w, y+h), COLOR, 2)
+        frame = cv2.putText(frame, 'face'+str(i), (x, y+h-2), cv2.FONT_HERSHEY_PLAIN, 1, COLOR)
 
     # Display the resulting frame
-    cv2.imshow('frame', frame)
+    cv2.imshow('Video Feed', frame)
     # Exit loop if 'q' key is pressed
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
